@@ -18,6 +18,7 @@
 	
 	IBOutlet UITextField* textField;
 	IBOutlet UILabel* cardNumberLabel;
+	CGPoint gestureStartPoint;
 }
 
 @property (retain) NSMutableArray* cards;

@@ -125,11 +125,26 @@
 	[self displayFace:(([displayedFace isEqualTo:@"term"]) ? @"definition" : @"term") ofCard:displayedCard];
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {	
+	UITouch *touch = [touches anyObject];
+	gestureStartPoint = [touch locationInView:self.view];
+}
+
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	UITouch* touch = [touches anyObject];
 	if (touch.view == [self view]) {
 		if (touch.tapCount == 1)
 			[self flipCard:self];
+		else if (touch.tapCount == 0) {
+			CGPoint currentPosition = [touch locationInView:self.view];			
+			CGFloat deltaX = fabsf(gestureStartPoint.x - currentPosition.x);
+			if (deltaX > 25) {
+				if (currentPosition.x < gestureStartPoint.x)
+					[self displayNextCard:self]; // flick left
+				else
+					[self displayPreviousCard:self]; // flick right
+			}
+		}
 	}
 }
 
